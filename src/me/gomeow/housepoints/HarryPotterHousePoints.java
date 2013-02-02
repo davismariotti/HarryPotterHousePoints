@@ -1,27 +1,40 @@
 package me.gomeow.housepoints;
 
 import java.util.HashMap;
+import java.util.UUID;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
+import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 
 	HashMap<String, House> setSign = new HashMap<String, House>();
 	
+	public String capFirst(String s) {
+		return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+	}
+
+	ChatColor GRYFFINDOR = ChatColor.DARK_RED;
+	ChatColor HUFFLEPUFF = ChatColor.YELLOW;
+	ChatColor SLYTHERIN = ChatColor.GREEN;
+	ChatColor RAVENCLAW = ChatColor.DARK_BLUE;
+	
 	@Override
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(this, this);
 	}
+	
 	
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmdObj, String label, String[] args) {
@@ -29,41 +42,123 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 		if(cmd.equalsIgnoreCase("housepoints")) {
 			switch(args.length) {
 			case 1:
-				
-			case 2:
-				/*if(args[0].equalsIgnoreCase("setsign")) {
-					if(cs instanceof Player) {
-						Player p = (Player) cs;
-						if(args[1].equalsIgnoreCase("g") || args[1].equalsIgnoreCase("gryffindor")) {
-							p.sendMessage(ChatColor.GREEN+"Now hit a sign to set the Gryffindor house sign!");
-							setSign.put(p.getName(), House.GRYFFINDOR);
-							return true;
-						}
-						else if(args[1].equalsIgnoreCase("s") || args[1].equalsIgnoreCase("slytherin")) {
-							p.sendMessage(ChatColor.GREEN+"Now hit a sign to set the Slytherin house sign!");
-							setSign.put(p.getName(), House.SLYTHERIN);
-							return true;
-						}
-						else if(args[1].equalsIgnoreCase("r") || args[1].equalsIgnoreCase("ravenclaw")) {
-							p.sendMessage(ChatColor.GREEN+"Now hit a sign to set the Ravenclaw house sign!");
-							setSign.put(p.getName(), House.RAVENCLAW);	
-							return true;
-						}
-						else if(args[1].equalsIgnoreCase("h") || args[1].equalsIgnoreCase("hufflepuff")) {
-							p.sendMessage(ChatColor.GREEN+"Now hit a sign to set the Hufflepuff house sign!");
-							setSign.put(p.getName(), House.HUFFLEPUFF);	
-							return true;
-						}
-						else  {
-							p.sendMessage(ChatColor.RED + "You did not specify one of the acceptable house names:");
-							p.sendMessage(ChatColor.RED+"gryffindor, slytherin, ravenclaw, hufflepuff");
-							return true;
+			case 3:
+				if(args[0].equalsIgnoreCase("give")) {
+					if(args[1].equalsIgnoreCase("g") || args[1].equalsIgnoreCase("Gryffindor")) {
+						if(cs.hasPermission("housepoints.give.gryffindor")) {
+							int points = getConfig().getInt("Points.Gryffindor", 0);
+							try {
+								points = points + Integer.parseInt(args[2]);
+							}catch(NumberFormatException nfe) {
+								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
+							}
+							getConfig().set("Points.Gryffindor", points);
+							HousePointEvent event = new HousePointEvent(House.GRYFFINDOR, points, true);
+							Bukkit.getPluginManager().callEvent(event);
+							cs.sendMessage(ChatColor.GREEN+"You gave "+args[2]+ " points to Gryffindor!");
 						}
 					}
-					else {
-						cs.sendMessage(ChatColor.RED+"");
+					else if(args[1].equalsIgnoreCase("s") || args[1].equalsIgnoreCase("Slytherin")) {
+						if(cs.hasPermission("housepoints.give.slytherin")) {
+							int points = getConfig().getInt("Points.Slytherin", 0);
+							try {
+								points = points + Integer.parseInt(args[2]);
+							}catch(NumberFormatException nfe) {
+								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
+							}
+							getConfig().set("Points.Slytherin", points);
+							HousePointEvent event = new HousePointEvent(House.SLYTHERIN, points, true);
+							Bukkit.getPluginManager().callEvent(event);
+							cs.sendMessage(ChatColor.GREEN+"You gave "+args[2]+ " points to Slytherin!");
+						}
 					}
-				}*/
+					else if(args[1].equalsIgnoreCase("r") || args[1].equalsIgnoreCase("Ravenclaw")) {
+						if(cs.hasPermission("housepoints.give.ravenclaw")) {
+							int points = getConfig().getInt("Points.Ravenclaw", 0);
+							try {
+								points = points + Integer.parseInt(args[2]);
+							}catch(NumberFormatException nfe) {
+								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
+							}
+							getConfig().set("Points.Ravenclaw", points);
+							HousePointEvent event = new HousePointEvent(House.RAVENCLAW, points, true);
+							Bukkit.getPluginManager().callEvent(event);
+							cs.sendMessage(ChatColor.GREEN+"You gave "+args[2]+ " points to Ravenclaw!");
+						}
+					}
+					else if(args[1].equalsIgnoreCase("h") || args[1].equalsIgnoreCase("Hufflepuff")) {
+						if(cs.hasPermission("housepoints.give.hufflepuff")) {
+							int points = getConfig().getInt("Points.Hufflepuff", 0);
+							try {
+								points = points + Integer.parseInt(args[2]);
+							}catch(NumberFormatException nfe) {
+								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
+							}
+							getConfig().set("Points.Hufflepuff", points);
+							HousePointEvent event = new HousePointEvent(House.HUFFLEPUFF, points, true);
+							Bukkit.getPluginManager().callEvent(event);
+							cs.sendMessage(ChatColor.GREEN+"You gave "+args[2]+ " points to Hufflepuff!");
+						}
+					}
+				}
+				else if(args[0].equalsIgnoreCase("take")) {
+					if(args[1].equalsIgnoreCase("g") || args[1].equalsIgnoreCase("Gryffindor")) {
+						if(cs.hasPermission("housepoints.take.gryffindor")) {
+							int points = getConfig().getInt("Points.Gryffindor", 0);
+							try {
+								points = points - Integer.parseInt(args[2]);
+							}catch(NumberFormatException nfe) {
+								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
+							}
+							getConfig().set("Points.Gryffindor", points);
+							HousePointEvent event = new HousePointEvent(House.GRYFFINDOR, points, true);
+							Bukkit.getPluginManager().callEvent(event);
+							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Gryffindor!");
+						}
+					}
+					else if(args[1].equalsIgnoreCase("s") || args[1].equalsIgnoreCase("Slytherin")) {
+						if(cs.hasPermission("housepoints.take.slytherin")) {
+							int points = getConfig().getInt("Points.Slytherin", 0);
+							try {
+								points = points - Integer.parseInt(args[2]);
+							}catch(NumberFormatException nfe) {
+								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
+							}
+							getConfig().set("Points.Slytherin", points);
+							HousePointEvent event = new HousePointEvent(House.SLYTHERIN, points, true);
+							Bukkit.getPluginManager().callEvent(event);
+							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Slytherin!");
+						}
+					}
+					else if(args[1].equalsIgnoreCase("r") || args[1].equalsIgnoreCase("Ravenclaw")) {
+						if(cs.hasPermission("housepoints.take.ravenclaw")) {
+							int points = getConfig().getInt("Points.Ravenclaw", 0);
+							try {
+								points = points - Integer.parseInt(args[2]);
+							}catch(NumberFormatException nfe) {
+								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
+							}
+							getConfig().set("Points.Ravenclaw", points);
+							HousePointEvent event = new HousePointEvent(House.RAVENCLAW, points, true);
+							Bukkit.getPluginManager().callEvent(event);
+							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Ravenclaw!");
+						}
+					}
+					else if(args[1].equalsIgnoreCase("h") || args[1].equalsIgnoreCase("Hufflepuff")) {
+						if(cs.hasPermission("housepoints.take.hufflepuff")) {
+							int points = getConfig().getInt("Points.Hufflepuff", 0);
+							try {
+								points = points - Integer.parseInt(args[2]);
+							}catch(NumberFormatException nfe) {
+								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
+							}
+							getConfig().set("Points.Hufflepuff", points);
+							HousePointEvent event = new HousePointEvent(House.HUFFLEPUFF, points, true);
+							Bukkit.getPluginManager().callEvent(event);
+							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Hufflepuff!");
+						}
+					}
+				}
 			default:
 				sendHelp(cs);
 			}
@@ -77,29 +172,89 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 	}
 	
 	@EventHandler
-	public void onInteract(PlayerInteractEvent event) {
+	public void onInteract(SignChangeEvent event) {
 		Player p = event.getPlayer();
-		if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			Block b = event.getClickedBlock();
-			if(b.getType() == Material.SIGN_POST || b.getType() == Material.WALL_SIGN) {
-				Sign s = (Sign) b;
-				String[] lines = s.getLines();
-				if(p.hasPermission("housepoints.makesign")) {
-					if(lines[0].equalsIgnoreCase("[Gryffindor]")) {
-						
-					}
-					else if(lines[0].equalsIgnoreCase("[Slytherin]")) {
-						
-					}
-					else if(lines[0].equalsIgnoreCase("[Ravenclaw]")) {
-						
-					}
-					else if(lines[0].equalsIgnoreCase("[Hufflepuff]")) {
-						
-					}
-				}
+		Sign s = (Sign) event.getBlock().getState();
+		Location l = event.getBlock().getLocation();
+		String[] lines = event.getLines();
+		String uuid = UUID.randomUUID().toString().substring(0,8);
+		if(p.hasPermission("housepoints.makesign")) {
+			if(lines[0].equalsIgnoreCase("[Gryffindor]")) {
+				s.setLine(0, GRYFFINDOR+"Gryffindor");
+				s.setLine(1, GRYFFINDOR+"Points: "+String.valueOf(getConfig().getInt("Points.Gryffindor")));
+				s.update();
+				event.setCancelled(true);
+				getConfig().set("Signs.Gryffindor."+uuid+".World", l.getWorld().getName());
+				getConfig().set("Signs.Gryffindor."+uuid+".X", l.getBlockX());
+				getConfig().set("Signs.Gryffindor."+uuid+".Y", l.getBlockY());
+				getConfig().set("Signs.Gryffindor."+uuid+".Z", l.getBlockZ());
+				this.saveConfig();
+			}
+			else if(lines[0].equalsIgnoreCase("[Slytherin]")) {
+				s.setLine(0, SLYTHERIN+"Slytherin");
+				s.setLine(1, SLYTHERIN+"Points: "+String.valueOf(getConfig().getInt("Points.Slytherin")));
+				s.update();
+				event.setCancelled(true);
+				getConfig().set("Signs.Slytherin."+uuid+".World", l.getWorld().getName());
+				getConfig().set("Signs.Slytherin."+uuid+".X", l.getBlockX());
+				getConfig().set("Signs.Slytherin."+uuid+".Y", l.getBlockY());
+				getConfig().set("Signs.Slytherin."+uuid+".Z", l.getBlockZ());
+				this.saveConfig();
+			}
+			else if(lines[0].equalsIgnoreCase("[Ravenclaw]")) {
+				s.setLine(0, RAVENCLAW+"Ravenclaw");
+				s.setLine(1, RAVENCLAW+"Points: "+String.valueOf(getConfig().getInt("Points.Ravenclaw")));
+				s.update();
+				event.setCancelled(true);
+				getConfig().set("Signs.Ravenclaw."+uuid+".World", l.getWorld().getName());
+				getConfig().set("Signs.Ravenclaw."+uuid+".X", l.getBlockX());
+				getConfig().set("Signs.Ravenclaw."+uuid+".Y", l.getBlockY());
+				getConfig().set("Signs.Ravenclaw."+uuid+".Z", l.getBlockZ());
+				this.saveConfig();
+			}
+			else if(lines[0].equalsIgnoreCase("[Hufflepuff]")) {
+				s.setLine(0, HUFFLEPUFF+"Hufflepuff");
+				s.setLine(1, HUFFLEPUFF+"Points: "+String.valueOf(getConfig().getInt("Points.Hufflepuff")));
+				s.update();
+				event.setCancelled(true);
+				getConfig().set("Signs.Hufflepuff."+uuid+".World", l.getWorld().getName());
+				getConfig().set("Signs.Hufflepuff."+uuid+".X", l.getBlockX());
+				getConfig().set("Signs.Hufflepuff."+uuid+".Y", l.getBlockY());
+				getConfig().set("Signs.Hufflepuff."+uuid+".Z", l.getBlockZ());
+				this.saveConfig();
 			}
 		}
 	}
 	
+	@EventHandler
+	public void onHousePointChange(HousePointEvent event) {
+		String house = capFirst(event.getHouse().toString().toLowerCase());
+		if(!(getConfig().getConfigurationSection("Signs").getKeys(false).contains(house))) return;
+		for(String key:getConfig().getConfigurationSection("Signs."+house)
+				.getKeys(false)) {
+			World w = Bukkit.getWorld(getConfig().getString("Signs."+house+"."+key+".World"));
+			Location l = new Location(w, 
+				getConfig().getInt("Signs."+house+"."+key+".X"), 
+				getConfig().getInt("Signs."+house+"."+key+".Y"), 
+				getConfig().getInt("Signs."+house+"."+key+".Z"));
+			if(w.getBlockAt(l).getType() == Material.SIGN_POST 
+					|| w.getBlockAt(l).getType() == Material.WALL_SIGN) {
+				Sign s = (Sign) w.getBlockAt(l).getState();
+				if(ChatColor.stripColor(s.getLine(0)).equalsIgnoreCase(house)) {
+					String[] lines = s.getLines();
+					s.setLine(0, lines[0]);
+					s.setLine(1, event.getHouse().getColor()+"Points: "+String.valueOf(event.getPoints()));
+					s.update();
+				}
+				else {
+					getConfig().set("Signs."+house+"."+key, null);
+					saveConfig();
+				}
+			}
+			else {
+				getConfig().set("Signs."+house+"."+key, null);
+				saveConfig();
+			}
+		}
+	}
 }

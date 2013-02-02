@@ -1,0 +1,16 @@
+main: me.gomeow.housepoints.HarryPotterHousePoints
+name: HarryPotterHousePoints
+version: 1.0.0
+author: gomeow
+
+commands:
+  housepoints:
+    description: Help page for all House Points commands
+
+permissions:
+  housepoints.*:
+    description: Gives all house points permissions.
+    children:
+      housepoints.makesign: true
+  housepoints.makesign:
+    description: Allows a user to make a house points sign.
