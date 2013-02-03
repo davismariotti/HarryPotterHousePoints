@@ -116,7 +116,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 							}
 							getConfig().set("Points.Gryffindor", points);
 							this.saveConfig();
-							HousePointEvent event = new HousePointEvent(House.GRYFFINDOR, points, true);
+							HousePointEvent event = new HousePointEvent(House.GRYFFINDOR, points, false);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Gryffindor!");
 						}
@@ -131,7 +131,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 							}
 							getConfig().set("Points.Slytherin", points);
 							this.saveConfig();
-							HousePointEvent event = new HousePointEvent(House.SLYTHERIN, points, true);
+							HousePointEvent event = new HousePointEvent(House.SLYTHERIN, points, false);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Slytherin!");
 						}
@@ -146,7 +146,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 							}
 							getConfig().set("Points.Ravenclaw", points);
 							this.saveConfig();
-							HousePointEvent event = new HousePointEvent(House.RAVENCLAW, points, true);
+							HousePointEvent event = new HousePointEvent(House.RAVENCLAW, points, false);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Ravenclaw!");
 						}
@@ -161,7 +161,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 							}
 							getConfig().set("Points.Hufflepuff", points);
 							this.saveConfig();
-							HousePointEvent event = new HousePointEvent(House.HUFFLEPUFF, points, true);
+							HousePointEvent event = new HousePointEvent(House.HUFFLEPUFF, points, false);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Hufflepuff!");
 						}
