@@ -5,7 +5,7 @@ import org.bukkit.ChatColor;
 
 public enum House {
 	GRYFFINDOR(ChatColor.DARK_RED),
-	SLYTHERIN(ChatColor.GREEN),
+	SLYTHERIN(ChatColor.DARK_GREEN),
 	RAVENCLAW(ChatColor.DARK_BLUE),
 	HUFFLEPUFF(ChatColor.YELLOW);
 	

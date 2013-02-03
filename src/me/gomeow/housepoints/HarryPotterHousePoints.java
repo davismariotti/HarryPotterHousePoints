@@ -27,7 +27,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 
 	ChatColor GRYFFINDOR = ChatColor.DARK_RED;
 	ChatColor HUFFLEPUFF = ChatColor.YELLOW;
-	ChatColor SLYTHERIN = ChatColor.GREEN;
+	ChatColor SLYTHERIN = ChatColor.DARK_GREEN;
 	ChatColor RAVENCLAW = ChatColor.DARK_BLUE;
 	
 	@Override
@@ -53,6 +53,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
 							}
 							getConfig().set("Points.Gryffindor", points);
+							this.saveConfig();
 							HousePointEvent event = new HousePointEvent(House.GRYFFINDOR, points, true);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You gave "+args[2]+ " points to Gryffindor!");
@@ -67,6 +68,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
 							}
 							getConfig().set("Points.Slytherin", points);
+							this.saveConfig();
 							HousePointEvent event = new HousePointEvent(House.SLYTHERIN, points, true);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You gave "+args[2]+ " points to Slytherin!");
@@ -81,6 +83,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
 							}
 							getConfig().set("Points.Ravenclaw", points);
+							this.saveConfig();
 							HousePointEvent event = new HousePointEvent(House.RAVENCLAW, points, true);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You gave "+args[2]+ " points to Ravenclaw!");
@@ -95,6 +98,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
 							}
 							getConfig().set("Points.Hufflepuff", points);
+							this.saveConfig();
 							HousePointEvent event = new HousePointEvent(House.HUFFLEPUFF, points, true);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You gave "+args[2]+ " points to Hufflepuff!");
@@ -111,6 +115,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
 							}
 							getConfig().set("Points.Gryffindor", points);
+							this.saveConfig();
 							HousePointEvent event = new HousePointEvent(House.GRYFFINDOR, points, true);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Gryffindor!");
@@ -125,6 +130,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
 							}
 							getConfig().set("Points.Slytherin", points);
+							this.saveConfig();
 							HousePointEvent event = new HousePointEvent(House.SLYTHERIN, points, true);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Slytherin!");
@@ -139,6 +145,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
 							}
 							getConfig().set("Points.Ravenclaw", points);
+							this.saveConfig();
 							HousePointEvent event = new HousePointEvent(House.RAVENCLAW, points, true);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Ravenclaw!");
@@ -153,6 +160,7 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points given!");
 							}
 							getConfig().set("Points.Hufflepuff", points);
+							this.saveConfig();
 							HousePointEvent event = new HousePointEvent(House.HUFFLEPUFF, points, true);
 							Bukkit.getPluginManager().callEvent(event);
 							cs.sendMessage(ChatColor.GREEN+"You took "+args[2]+ " points from Hufflepuff!");
