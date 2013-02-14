@@ -20,6 +20,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 
 	HashMap<String, House> setSign = new HashMap<String, House>();
+	Long maxPointsLower = 0L;
+	Long maxPointsUpper = 0L;
 	
 	public String capFirst(String s) {
 		return Character.toUpperCase(s.charAt(0)) + s.substring(1);
@@ -33,6 +35,8 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 	@Override
 	public void onEnable() {
 		this.getServer().getPluginManager().registerEvents(this, this);
+		this.maxPointsUpper = getConfig().getLong("Max-Points-Upper", 999999999999999L);
+		this.maxPointsUpper = getConfig().getLong("Max-Points-Lower", -999999999999999L);
 	}
 	
 	
@@ -188,6 +192,9 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 							int points = getConfig().getInt("Points.Slytherin", 0);
 							try {
 								points = Integer.parseInt(args[2]);
+								if(checkMaxPoints(points)) {
+									
+								}
 							}catch(NumberFormatException nfe) {
 								cs.sendMessage(ChatColor.RED+"You need to specify a number as the points set!");
 							}
@@ -235,6 +242,14 @@ public class HarryPotterHousePoints extends JavaPlugin implements Listener {
 		}
 		return true;
 	}
+
+	private boolean checkMaxPoints(int points) { 
+		if(new Long(points) < this.maxPointsUpper && new Long(points) > this.maxPointsLower) {
+			return true;
+		}
+		return false;
+	}
+
 
 	private void sendHelp(CommandSender cs) {
 		// TODO Auto-generated method stub
